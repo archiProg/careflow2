@@ -4,6 +4,7 @@ import "intl-pluralrules";
 import { initReactI18next } from "react-i18next";
 import en from "../assets/locales/en.json";
 import th from "../assets/locales/th.json";
+import Provider from "./Provider";
 
 const LANGUAGE_KEY = "APP_LANGUAGE";
 const DEFAULT_LANGUAGE = "en"; 
@@ -23,6 +24,7 @@ i18n.use(initReactI18next).init({
   await i18n.changeLanguage(lng);
   await AsyncStorage.setItem(LANGUAGE_KEY, lng);
   console.log(lng);
+  Provider.Language = lng;
 };
  
 
@@ -32,9 +34,11 @@ export const loadLanguage = async () => {
   
   if (lng) {
     await i18n.changeLanguage(lng);
+    Provider.Language = lng;
   } else {
     await i18n.changeLanguage(DEFAULT_LANGUAGE);
     await AsyncStorage.setItem(LANGUAGE_KEY, DEFAULT_LANGUAGE); 
+    Provider.Language = DEFAULT_LANGUAGE;
   }
 };
  

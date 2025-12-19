@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router"; // <-- ใช้ router จาก expo-router
 import React, { useEffect } from "react";
-import { ActivityIndicator, Alert } from "react-native";
+import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import "./global.css";
 
+import Loading from "@/components/loading";
 import { useInternet } from "@/hooks/UseInternet";
 import { LoginResponse } from "@/models/LoginModel";
 import { RequestApi } from "@/services/RequestApi";
@@ -90,8 +91,8 @@ const StartupPage = () => {
   }, [isConnected]);
 
   return (
-    <SafeAreaView className="h-full bg-gray-500 flex justify-center items-center">
-      <ActivityIndicator size="large" color="#3498db" />
+    <SafeAreaView className="h-full bg-white flex justify-center items-center dark:bg-gray-900">
+      <Loading />
     </SafeAreaView>
   );
 };

@@ -1,25 +1,21 @@
 import { CheckEmailResponse } from "../models/CheckEmailModel";
+import { RequestApi } from "../services/RequestApi";
 
-const checkEmail = async (email: string): Promise<CheckEmailResponse> => {
+const CheckEmail = async (email: string): Promise<CheckEmailResponse> => {
     const body = { email };
-
+    const api = new RequestApi();
     try {
-        const res = await fetch("/check-email", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body),
-        });
+        const response = await api.postApi("/check-email", JSON.stringify(body));
 
-        if (!res.ok) {
-            return { message: "Server error", status: -1 };
+        if (!response.success) {
+            return { message: response.response, status: -1 };
         }
+        let getResponse: CheckEmailResponse;
 
-        const data = (await res.json()) as CheckEmailResponse;
+        getResponse = JSON.parse(response.response);
 
-        if (data) {
-            return data;
+        if (getResponse != null) {
+            return getResponse;
         } else {
             return { message: "Server error", status: -1 };
         }
@@ -29,4 +25,11 @@ const checkEmail = async (email: string): Promise<CheckEmailResponse> => {
     }
 }
 
-export default checkEmail;
+
+const CheckFormmartEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+export { CheckEmail, CheckFormmartEmail };
+

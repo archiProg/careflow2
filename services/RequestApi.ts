@@ -34,7 +34,7 @@ export class RequestApi {
         }
 
         body = formData;
-      } else if (jsonData) {
+      } else if (jsonData != "") {
         body = jsonData;
       }
 
