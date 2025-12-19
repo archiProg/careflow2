@@ -29,17 +29,17 @@ const LanguageSelector = () => {
 
   const handleLanguageSelect = (code: string) => {
     setSelectedLanguage(code);
-
-    if (defaultLanguage == selectedLanguage) {
-      setIsApplyButtonDisabled(false);
-    } else {
+    if (defaultLanguage == code) {
       setIsApplyButtonDisabled(true);
+    } else {
+      setIsApplyButtonDisabled(false);
     }
   };
 
   const handleApply = () => {
     changeLanguage(selectedLanguage);
-    setIsApplyButtonDisabled(false);
+    setDefaultLanguage(selectedLanguage);
+    setIsApplyButtonDisabled(true);
   };
 
   const handleBack = () => {
