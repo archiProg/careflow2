@@ -60,7 +60,7 @@ const StartupPage = () => {
           if (getResponse.user.role == "patient") {
             router.replace("/patient/PatientHome");
           } else if (getResponse.user.role == "doctor") {
-            router.replace("/doctor/DoctorHome");
+            router.replace("/doctor/doctor_home");
           }
         } else {
           if (getResponse.message == "Invalid email or password") {
