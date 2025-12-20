@@ -29,7 +29,6 @@ const StartupPage = () => {
   };
 
   const TryLogin = async (email: string, password: string) => {
-
     if (!email || !password) {
       Alert.alert("Error", "Please enter email and password");
       return;
@@ -71,12 +70,15 @@ const StartupPage = () => {
           } else {
             Alert.alert("Notification", getResponse.message);
           }
+          router.replace("/auth/login");
         }
       } else {
         Alert.alert("Response Error", JSON.stringify(response.response));
+        router.replace("/auth/login");
       }
     } else {
       Alert.alert("API Error", JSON.stringify(response.response));
+      router.replace("/auth/login");
     }
   };
 
