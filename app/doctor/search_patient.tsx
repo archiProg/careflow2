@@ -1,5 +1,6 @@
 import { BG } from "@/constants/styles";
 import { FontAwesome } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -80,7 +81,9 @@ const SearchPatient = () => {
                 <Pressable
                     onPress={() => {
                         console.log("Start:", startTime, "End:", endTime);
-                        // เรียก API หรือ navigate ต่อ
+                        AsyncStorage.setItem("start_work", startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+                        AsyncStorage.setItem("end_work", endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+                        AsyncStorage.setItem("stop_work", "");
                     }}
                     className="h-[56px] w-full rounded-[24px] bg-black items-center justify-center dark:bg-[#2196F3]"
                 >
