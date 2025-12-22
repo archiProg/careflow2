@@ -1,5 +1,5 @@
 interface LoginResponse {
-  token: boolean;
+  token: string;
   user: UserInfo;
   message: string;
 }

@@ -1,18 +1,22 @@
-import { Icon, Label, NativeTabs } from 'expo-router/unstable-native-tabs';
+import { FontAwesome } from '@expo/vector-icons';
+import { Label, NativeTabs } from 'expo-router/unstable-native-tabs';
+import { useColorScheme } from 'react-native';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="doctor_home">
         <Label>Home</Label>
-        <Icon sf="house.fill" drawable="custom_android_drawable" />
+        <FontAwesome name="angle-left" size={24} color={colorScheme === "dark" ? "#fff" : "#444"} />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="doctor_history">
         <Label>History</Label>
-        <Icon sf="house.fill" drawable="custom_android_drawable" />
+        <FontAwesome name="angle-left" size={24} color={colorScheme === "dark" ? "#fff" : "#444"} />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="setting">
-        <Icon sf="gear" drawable="custom_settings_drawable" />
+        <FontAwesome name="angle-left" size={24} color={colorScheme === "dark" ? "#fff" : "#444"} />
         <Label>Settings</Label>
       </NativeTabs.Trigger>
     </NativeTabs>

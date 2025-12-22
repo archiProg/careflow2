@@ -1,3 +1,4 @@
+import { BG } from "@/constants/styles";
 import { CheckEmail } from "@/hooks/CheckEmail";
 import { RequestApi } from "@/services/RequestApi";
 import { FontAwesome } from "@expo/vector-icons";
@@ -223,7 +224,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <SafeAreaView className="h-full p-4 bg-white dark:bg-gray-900">
+      <SafeAreaView className={`${BG.default} ${BG.center}`}>
         <View className="flex-row items-center mb-8">
           <View className="flex items-start">
             <Pressable className="px-3 rounded-full" onPress={backButton}>
@@ -343,11 +344,10 @@ const RegisterPage = () => {
                   Password
                 </Text>
                 <View
-                  className={`flex-row items-center h-[56px] mb-[16px] rounded-[24px] px-4 border ${
-                    passwordFocused
-                      ? "border-[#2196F3] dark:border-[#64B5F6]"
-                      : "border-gray-900 dark:border-gray-200"
-                  }`}
+                  className={`flex-row items-center h-[56px] mb-[16px] rounded-[24px] px-4 border ${passwordFocused
+                    ? "border-[#2196F3] dark:border-[#64B5F6]"
+                    : "border-gray-900 dark:border-gray-200"
+                    }`}
                 >
                   <TextInput
                     onFocus={() => setPasswordFocused(true)}
@@ -374,11 +374,10 @@ const RegisterPage = () => {
                 </View>
 
                 <View
-                  className={`flex-row items-center h-[56px] mb-[16px] rounded-[24px] px-4 border ${
-                    passwordComFocused
-                      ? "border-[#2196F3] dark:border-[#64B5F6]"
-                      : "border-gray-900 dark:border-gray-200"
-                  }`}
+                  className={`flex-row items-center h-[56px] mb-[16px] rounded-[24px] px-4 border ${passwordComFocused
+                    ? "border-[#2196F3] dark:border-[#64B5F6]"
+                    : "border-gray-900 dark:border-gray-200"
+                    }`}
                 >
                   <TextInput
                     onFocus={() => setPasswordComFocused(true)}

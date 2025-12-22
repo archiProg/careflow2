@@ -1,5 +1,7 @@
+import { BG } from "@/constants/styles";
 import { CheckEmail } from "@/hooks/CheckEmail";
 import { LoginResponse } from "@/models/LoginModel";
+import { JWT } from "@/utils/jwt";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -32,7 +34,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isConnected = useInternet();
   const router = useRouter();
-  
+
 
   const handleLogin = async () => {
     try {
@@ -77,6 +79,8 @@ const LoginPage = () => {
       if (getResponse.token) {
         await AsyncStorage.setItem("email", email);
         await AsyncStorage.setItem("password", password);
+        await AsyncStorage.setItem("token", getResponse.token);
+        JWT.setToken(getResponse.token);
         router.replace("/");
       } else {
         Alert.alert("Notification", getResponse.message ?? "Login failed");
@@ -127,7 +131,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <SafeAreaView className="h-full p-4 bg-white dark:bg-gray-900">
+      <SafeAreaView className={`${BG.default} ${BG.center}`}>
         <View>
           <View className="flex flex-row justify-between items-center mb-8">
             <View>
@@ -190,7 +194,7 @@ const LoginPage = () => {
                 {t("or")}
               </Text>
               <Pressable
-                onPress={async () => {}}
+                onPress={async () => { }}
                 className="h-[56px] w-full rounded-[24px] bg-white border-[1px] border-gray-900 items-center justify-center dark:border-gray-200"
               >
                 <View className="flex flex-row items-center">
@@ -228,7 +232,7 @@ const LoginPage = () => {
                   />
                 </TouchableOpacity>
               </View>
-               <Pressable
+              <Pressable
                 onPress={async () => {
                   await handleApi("LOGIN");
                 }}
@@ -242,7 +246,7 @@ const LoginPage = () => {
                 {t("or")}
               </Text>
               <Pressable
-                onPress={async () => {}}
+                onPress={async () => { }}
                 className="h-[56px] w-full rounded-[24px] bg-white border-[1px] border-gray-900 items-center justify-center dark:border-gray-200"
               >
                 <View className="flex flex-row items-center">
