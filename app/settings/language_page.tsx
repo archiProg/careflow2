@@ -1,4 +1,3 @@
-import { BG } from "@/constants/styles";
 import { changeLanguage } from "@/services/I18n";
 import Provider from "@/services/Provider";
 import { FontAwesome } from "@expo/vector-icons";
@@ -59,7 +58,7 @@ const LanguageSelector = () => {
   }, []);
 
   return (
-    <SafeAreaView className={`${BG.default} ${BG.center}`}>
+    <SafeAreaView className="flex-1 h-full bg-white dark:bg-gray-900">
       <View className="flex w-full p-5 justify-start items-start">
         <Pressable
           className="flex-row items-center justify-start px-3 rounded-full"
@@ -104,8 +103,8 @@ const LanguageSelector = () => {
             <TouchableOpacity
               key={lang.code}
               className={`flex-row items-center justify-between p-4 rounded-xl my-1 border-2 mb-2 ${selectedLanguage === lang.code
-                ? "bg-gray-50 border-black dark:bg-indigo-50 dark:border-[#2196F3]"
-                : "bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+                  ? "bg-gray-50 border-black dark:bg-indigo-50 dark:border-[#2196F3]"
+                  : "bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
                 }`}
               onPress={() => handleLanguageSelect(lang.code)}
               activeOpacity={0.7}

@@ -1,4 +1,3 @@
-import { BG } from "@/constants/styles";
 import { CheckEmail } from "@/hooks/CheckEmail";
 import { LoginResponse } from "@/models/LoginModel";
 import { JWT } from "@/utils/jwt";
@@ -81,6 +80,7 @@ const LoginPage = () => {
         await AsyncStorage.setItem("password", password);
         await AsyncStorage.setItem("token", getResponse.token);
         JWT.setToken(getResponse.token);
+
         router.replace("/");
       } else {
         Alert.alert("Notification", getResponse.message ?? "Login failed");
@@ -131,7 +131,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <SafeAreaView className={`${BG.default} ${BG.center}`}>
+      <SafeAreaView className="h-full p-4 bg-white dark:bg-gray-900">
         <View>
           <View className="flex flex-row justify-between items-center mb-8">
             <View>

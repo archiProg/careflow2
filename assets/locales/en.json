@@ -26,5 +26,11 @@
   "loading...": "Loading...",
   "please_email": "Please enter your email",
   "or": "Or",
-  "continue_google": "Continue with Google"
+  "continue_google": "Continue with Google",
+  "home": "Home",
+  "history": "History",
+  "setting": "Setting",
+  "doctor_title_search": "Patient Search System",
+  "doctor_search_description": "This system helps you find patients that match your expertise",
+  "start_work": "Start"
 }

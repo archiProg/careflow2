@@ -1,21 +1,25 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { Icon, Label, NativeTabs, VectorIcon } from 'expo-router/unstable-native-tabs';
+import { useTranslation } from 'react-i18next';
 
-export default function TabLayout() {
+const TabLayout = () => {
+  const { t } = useTranslation();
   return (
     <NativeTabs >
       <NativeTabs.Trigger name="doctor_home">
-        <Label>Home</Label>
+        <Label>{t("home")}</Label>
         <Icon src={<VectorIcon family={FontAwesome} name="home" />} />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="doctor_history">
-        <Label>History</Label>
+        <Label>{t("history")}</Label>
         <Icon src={<VectorIcon family={FontAwesome} name="history" />} />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="setting">
-        <Label>Settings</Label>
+        <Label>{t("setting")}</Label>
         <Icon src={<VectorIcon family={FontAwesome} name="gear" />} />
       </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
+
+export default TabLayout;

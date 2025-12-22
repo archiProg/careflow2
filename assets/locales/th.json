@@ -26,5 +26,11 @@
   "loading...": "กำลังโหลด...",
   "please_email": "กรุณากรอกอีเมลของคุณ",
   "or": "หรือ",
-  "continue_google": "เข้าสู่ระบบด้วย Google"
+  "continue_google": "เข้าสู่ระบบด้วย Google",
+  "home": "หน้าแรก",
+  "history": "ประวัติ",
+  "setting": "ตั้งค่า",
+  "doctor_title_search": "ระบบค้นหาผู้ป่วย",
+  "doctor_search_description": "ระบบจะช่วยคุณค้นหาผู้ป่วยที่ตรงกับความเชี่ยวชาญของคุณ",
+  "start_work": "เริ่มงาน"
 }

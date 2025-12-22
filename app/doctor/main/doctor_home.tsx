@@ -1,12 +1,15 @@
 import { BG, BUTTON, CARD, TEXT } from "@/constants/styles";
 import Provider from "@/services/Provider";
 import { FontAwesome } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DoctorHome = () => {
     const colorScheme = useColorScheme();
-
+    const { t } = useTranslation();
+    const router = useRouter();
     return (
         <SafeAreaView className={`${BG.default}`}>
             <View className="flex flex-row items-center">
@@ -34,14 +37,16 @@ const DoctorHome = () => {
                 <View className={`${CARD.default} bg-black dark:bg-[#2196F3]`}>
                     <View className="flex-row justify-between items-center">
                         <View className="flex-1 pr-2">
-                            <Text className="text-white dark:text-white font-bold text-lg mb-1">ระบบค้นหาผู้ป่วย</Text>
-                            <Text className="text-white dark:text-white text-sm">ระบบจะช่วยคุณค้นหาผู้ป่วยที่ตรงกับความเชี่ยวชาญของคุณ</Text>
+                            <Text className="text-white dark:text-white font-bold text-lg mb-1">{t("doctor_title_search")}</Text>
+                            <Text className="text-white dark:text-white text-sm">{t("doctor_search_description")}</Text>
 
                             <View className="flex justify-center items-end">
                                 <TouchableOpacity
+                                    onPress={() => router.replace("/doctor/search_patient")}
+
                                     className={`${BUTTON.default} mt-4 flex justify-center items-center bg-white w-24 text-center h-14`}
                                 >
-                                    <Text className={`${BUTTON.default}  text-center  `}>เริ่มงาน</Text>
+                                    <Text className={`${BUTTON.default}  text-center  `}>{t("start_work")}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

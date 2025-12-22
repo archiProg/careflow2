@@ -130,7 +130,7 @@ const StartupPage = () => {
               router.replace("/patient/patient_home");
             }
             else if (Provider.Profile.role == "doctor") {
-              router.replace("/doctor/doctor_home");
+              router.replace("/doctor/main/doctor_home");
             }
             else {
               router.replace("/");
