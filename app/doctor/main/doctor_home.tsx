@@ -2,16 +2,27 @@ import { BG, BUTTON, CARD, TEXT } from "@/constants/styles";
 import Provider from "@/services/Provider";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import { Alert, Image, Modal, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DoctorHome = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+
     const colorScheme = useColorScheme();
     const { t } = useTranslation();
     const router = useRouter();
     return (
         <SafeAreaView className={`${BG.default}`}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                }}></Modal>
             <View className="flex flex-row items-center">
                 <View>
                     {Provider.Profile?.doctor_profile?.profile_detail ? (
