@@ -1,107 +1,190 @@
-import { BG, BUTTON, CARD, TEXT } from "@/constants/styles";
+import Card from "@/components/card";
+import { BG, CARD } from "@/constants/styles";
+import formatWorkTime from "@/hooks/formatWorkTime";
 import Provider from "@/services/Provider";
-import { FontAwesome } from "@expo/vector-icons";
+import { AppDispatch, RootState } from "@/store";
+import {
+  paused_work,
+  resetWork,
+  resume_work,
+  setStatus,
+} from "@/store/workSlice";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 
 const DoctorHome = () => {
-    const [statusWorking, setStatusWorking] = useState("end_working"); // end_working, stop_working, start_work
-    const [startWork, setStartWork] = useState("");
-    const [endWork, setEndWork] = useState("");
-    const colorScheme = useColorScheme();
-    const { t } = useTranslation();
-    const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
+  const { status, startWork, times } = useSelector(
+    (state: RootState) => state.work
+  );
 
+  const [description, setDescription] = useState("");
+  const colorScheme = useColorScheme();
+  const { t } = useTranslation();
+  const router = useRouter();
 
-    const checkWork = async () => {
-        const start_work = await AsyncStorage.getItem("start_work");
-        const end_work = await AsyncStorage.getItem("end_work");
-        const stop_work = await AsyncStorage.getItem("stop_work");
-        setStartWork(start_work ? start_work : "00:00");
-        setEndWork(end_work ? end_work : "00:00");
-        setStatusWorking(start_work && end_work ? "start_work" : stop_work ? "stop_work" : "end_working");
+  const checkWork = async () => {
+    const start = await AsyncStorage.getItem("start_work");
+    const times = await AsyncStorage.getItem("times_work");
+    const paused = await AsyncStorage.getItem("paused_work");
+
+    if (!start || !times) {
+      setDescription("ยังไม่ได้เริ่มงาน");
+      dispatch(setStatus("end_work"));
+      return;
     }
 
-    useEffect(() => {
-        checkWork();
-    }, []);
+    dispatch(setStatus(paused ? "paused_work" : "start_work"));
 
+    const startDate = new Date(start);
+    const [h, m] = times.split(":").map(Number);
 
-    return (
-        <SafeAreaView className={`${BG.default}`}>
+    const endDate = new Date(startDate);
+    endDate.setHours(endDate.getHours() + h);
+    endDate.setMinutes(endDate.getMinutes() + m);
 
-            <View className="flex flex-row items-center">
-                <View>
-                    {Provider.Profile?.doctor_profile?.profile_detail ? (
-                        <Image
-                            source={{ uri: Provider.Profile?.doctor_profile.profile_detail }}
-                            className="w-24 h-24 rounded-full"
-                        />
-                    ) : (
-                        <FontAwesome
-                            name="user-md"
-                            size={36}
-                            className=" text-black dark:text-white"
-                            color={colorScheme === "dark" ? "#fff" : "#444"}
-                        />
-                    )}
-                </View>
-                <View className="ml-4">
-                    <Text className={`${TEXT.default} ${TEXT.subtitle}`}>{Provider.Profile?.name}</Text>
-                    <Text className={`${TEXT.description}`}>{Provider.Profile?.role ? Provider.Profile?.role[0].toUpperCase() + Provider.Profile?.role.slice(1) : ""}</Text>
-                </View>
-            </View>
-            <View className="mt-4">
-                <View className={`${CARD.default} bg-black dark:bg-[#2196F3]`}>
-                    <View className="flex-row justify-between items-center">
-                        <View className="flex-1">
-                            <Text className="text-white dark:text-white font-bold text-lg mb-1">{t("doctor_title_search")}</Text>
+    const sameDay = startDate.toDateString() === endDate.toDateString();
 
-                            {statusWorking === "end_working" ?
-                                <Text className="text-white dark:text-white text-md">{t("doctor_search_description")}</Text>
-                                :
-                                <View>
-                                    <Text className="text-white dark:text-white text-md">  {startWork} - {endWork}</Text>
-                                </View>
-                            }
+    const s = formatWorkTime(startDate.toISOString()).split(" ");
+    const e = formatWorkTime(endDate.toISOString()).split(" ");
 
-                            {statusWorking === "end_working" ? <View className="flex justify-center items-end">
-                                <TouchableOpacity
-                                    onPress={() => router.replace("/doctor/search_patient")}
-
-                                    className={`${BUTTON.default} mt-4 flex justify-center items-center bg-white w-24 text-center h-14`}
-                                >
-                                    <Text className={`${BUTTON.default}  text-center  `}>{t("start_work")}</Text>
-                                </TouchableOpacity>
-                            </View>
-                                :
-                                <View className="flex flex-row justify-end">
-                                    <TouchableOpacity
-                                        onPress={() => router.replace("/doctor/search_patient")}
-
-                                        className={`${BUTTON.default} mt-4 flex justify-center items-center bg-white w-24 text-center h-14 mr-2`}
-                                    >
-                                        <Text className={`${BUTTON.default}  text-center`}>{t("stop_work")}</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => router.replace("/doctor/search_patient")}
-
-                                        className={`${BUTTON.default} mt-4 flex justify-center items-center bg-white w-24 text-center h-14`}
-                                    >
-                                        <Text className={`${BUTTON.default}  text-center`}>{t("end_work")}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            }
-                        </View>
-                    </View>
-                </View>
-            </View>
-        </SafeAreaView>
+    setDescription(
+      sameDay
+        ? `Shift ${s.slice(1).join(" ")} - ${e.slice(1).join(" ")}`
+        : `Shift ${s.slice(1).join(" ")} - ${e.slice(1).join(" ")} (Tomorrow)`
     );
+  };
+
+  const handleStartWork = () => router.push("/doctor/search_patient");
+
+  useEffect(() => {
+    checkWork();
+  }, [status, startWork, times, t]);
+
+  const getStatusBadge = () => {
+    if (status === "start_work") {
+      return (
+        <View className="bg-green-500 px-3 py-1 rounded-full flex-row items-center">
+          <View className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse" />
+          <Text className="text-white text-xs font-semibold">Active</Text>
+        </View>
+      );
+    }
+    if (status === "paused_work") {
+      return (
+        <View className="bg-orange-500 px-3 py-1 rounded-full flex-row items-center">
+          <FontAwesome5
+            name="pause"
+            size={10}
+            color={colorScheme === "dark" ? "#fff" : "#000"}
+          />
+          <Text className="text-white text-xs pl-2 font-semibold">Paused</Text>
+        </View>
+      );
+    }
+    return (
+      <View className="bg-gray-400 dark:bg-gray-600 px-3 py-1 rounded-full">
+        <Text className="text-white text-xs font-semibold">Offline</Text>
+      </View>
+    );
+  };
+
+  return (
+    <SafeAreaView className={`${BG.default} bg-secondary flex-1`}>
+      <ScrollView className="flex-1 px-2" showsVerticalScrollIndicator={false}>
+        {/* Greeting Section */}
+        <View className="pt-4 pb-6">
+          <Text className="text-gray-500 dark:text-gray-400 text-md mb-1">
+            {new Date().getHours() < 12
+              ? "Good Morning"
+              : new Date().getHours() < 18
+                ? "Good Afternoon"
+                : "Good Evening"}
+          </Text>
+          <Text className="text-3xl font-bold text-black dark:text-white">
+            Welcome Back
+          </Text>
+        </View>
+
+        {/* Profile Card */}
+        <View className={`${CARD.body} bg-white border-gray-100 dark:bg-gray-800 dark:border-gray-800`}>
+          <View className="flex-row items-center">
+            {/* Profile Image */}
+            <View className="relative">
+              {Provider.Profile?.doctor_profile?.profile_detail ? (
+                <Image
+                  source={{
+                    uri: Provider.Profile.doctor_profile.profile_detail,
+                  }}
+                  className="w-20 h-20 rounded-2xl"
+                />
+              ) : (
+                <View className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 items-center justify-center">
+                  <FontAwesome name="user-md" size={32} color="" />
+                </View>
+              )}
+              {/* Status Indicator */}
+              <View
+                className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white dark:border-gray-800 ${
+                  status === "start_work"
+                    ? "bg-green-500"
+                    : status === "paused_work"
+                      ? "bg-orange-500"
+                      : "bg-gray-400"
+                }`}
+              />
+            </View>
+
+            {/* Profile Info */}
+            <View className="flex-1 ml-4">
+              <Text className={`${CARD.title} text-black dark:text-white mb-1`}>
+                {Provider.Profile?.name || "Doctor"}
+              </Text>
+              <Text className={`${CARD.subtitle} text-gray-500 dark:text-gray-400 mb-2`}>
+                {Provider.Profile?.role
+                  ? Provider.Profile.role[0].toUpperCase() +
+                    Provider.Profile.role.slice(1)
+                  : "Medical Professional"}
+              </Text>
+              {getStatusBadge()}
+            </View>
+          </View>
+        </View>
+
+        {/* Main Work Card */}
+        <View className="mb-6">
+          <Card
+            title={t("doctor_title_search")}
+            subtitle={description}
+            urldetail="/doctor/search_patient"
+            className="bg-blue-500 text-white"
+            actions={
+              status === "start_work" || status === "paused_work"
+                ? [
+                    status === "start_work"
+                      ? {
+                          label: "Pause",
+                          onPress: () => dispatch(paused_work()),
+                        }
+                      : {
+                          label: "Resume",
+                          onPress: () => dispatch(resume_work()),
+                        },
+                    { label: "End", onPress: () => dispatch(resetWork()) },
+                  ]
+                : [{ label: "Start", onPress: handleStartWork }]
+            }
+          />
+        </View>
+       </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default DoctorHome;

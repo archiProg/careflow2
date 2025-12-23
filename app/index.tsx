@@ -8,11 +8,11 @@ import "./global.css";
 
 import Loading from "@/components/loading";
 import { BG } from "@/constants/styles";
-import { useInternet } from "@/hooks/UseInternet";
-import { LoginResponse } from "@/models/LoginModel";
-import { User } from "@/models/ProfileModel";
+import { useInternet } from "@/hooks/useInternet";
 import Provider from "@/services/Provider";
 import { RequestApi } from "@/services/RequestApi";
+import { LoginResponse } from "@/types/LoginModel";
+import { User } from "@/types/ProfileModel";
 import { JWT } from "@/utils/jwt";
 import { loadLanguage } from "../services/I18n";
 const StartupPage = () => {

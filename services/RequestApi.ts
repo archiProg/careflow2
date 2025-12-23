@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/models/ApiModel";
+import { ApiResponse } from "@/types/ApiModel";
 import { JWT } from "@/utils/jwt";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";

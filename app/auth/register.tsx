@@ -1,5 +1,5 @@
 import { BG } from "@/constants/styles";
-import { CheckEmail } from "@/hooks/CheckEmail";
+import { CheckEmail } from "@/hooks/checkEmail";
 import { RequestApi } from "@/services/RequestApi";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";

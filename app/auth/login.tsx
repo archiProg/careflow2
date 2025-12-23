@@ -1,5 +1,5 @@
-import { CheckEmail } from "@/hooks/CheckEmail";
-import { LoginResponse } from "@/models/LoginModel";
+import { CheckEmail } from "@/hooks/checkEmail";
+import { LoginResponse } from "@/types/LoginModel";
 import { JWT } from "@/utils/jwt";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,18 +7,18 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Alert,
-  Image,
-  Pressable,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  useColorScheme
+    Alert,
+    Image,
+    Pressable,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    useColorScheme
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Loading from "../../components/loading";
-import { useInternet } from "../../hooks/UseInternet";
+import { useInternet } from "../../hooks/useInternet";
 import { RequestApi } from "../../services/RequestApi";
 
 const google_icon = require("@/assets/images/google_64.png");

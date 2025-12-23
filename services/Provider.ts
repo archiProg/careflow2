@@ -1,4 +1,4 @@
-import { User } from "@/models/ProfileModel";
+import { User } from "@/types/ProfileModel";
 
 
 class Provider {

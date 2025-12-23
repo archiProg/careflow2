@@ -1,6 +1,6 @@
 
 export const BG = {
-    default: "h-full bg-white dark:bg-gray-900 p-4",
+    default: "bg-white dark:bg-gray-900 p-4",
     center: "flex justify-center items-center",
 };
 
@@ -14,8 +14,9 @@ export const TEXT = {
 
 
 export const CARD = {
-    default: " p-4 rounded-[24px]",
-    patientItem: "bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-4",
+    body: "rounded-2xl p-5 mb-6 shadow-md border",
+    title: "text-lg font-bold",
+    subtitle: "text-md font-medium text-gray-500 dark:text-gray-400",
 };
 
 export const BUTTON = {

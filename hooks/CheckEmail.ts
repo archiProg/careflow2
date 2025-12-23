@@ -1,5 +1,5 @@
-import { CheckEmailResponse } from "../models/CheckEmailModel";
 import { RequestApi } from "../services/RequestApi";
+import { CheckEmailResponse } from "../types/CheckEmailModel";
 
 const CheckEmail = async (email: string): Promise<CheckEmailResponse> => {
     const body = { email };
